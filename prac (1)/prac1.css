@@ -1,0 +1,139 @@
+/* General page styling */
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: "Times New Roman", Times, serif; 
+    background-color: #dc4c4c; /* Dark pink background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+/* Wrapper for side-by-side layout */
+.main-wrapper {
+    display: flex;
+    gap: 30px; /* Space between form and output */
+    align-items: flex-start;
+    max-width: 1000px;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap; /* Allows wrapping on smaller mobile screens */
+}
+
+/* Form container styling (Left Side) */
+.form-container {
+    background-color: #ba0a0a;
+    width: 100%;
+    max-width: 420px;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    flex: 1;
+}
+
+/* Result container styling (Right Side) */
+.result-container {
+    background-color: #ffffff; /* Clean white background like a report card */
+    width: 100%;
+    max-width: 420px;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+    flex: 1;
+    font-family: sans-serif;
+    color: #333;
+    display: none; /* Hidden by default until submitted */
+}
+
+/* Class to make the result container visible */
+.result-container.active {
+    display: block;
+}
+
+/* Result Card Text Styling */
+.result-container h2 {
+    text-align: center;
+    border-bottom: 2px solid #ccc;
+    padding-bottom: 15px;
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+.result-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 8px;
+    font-size: 15px;
+}
+
+.result-item strong {
+    color: #555;
+}
+
+/* Headings inside Form */
+.form-container h1 {
+    text-align: center;
+    font-size: 24px;
+    color: #e2d6d6;
+    margin-bottom: 10px;
+    margin-top: 0;
+}
+
+.form-container h2 {
+    text-align: center;
+    font-size: 16px;
+    color: #e2d6d6;
+    font-weight: normal;
+    margin-bottom: 30px;
+    margin-top: 0;
+}
+
+/* Input groups */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: bold;
+    color: #e4c4d4; 
+    margin-bottom: 8px;
+    font-family: sans-serif;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: none;
+    border-radius: 8px;
+    background-color: #e8f0eb;
+    font-size: 14px;
+    box-sizing: border-box; 
+    color: #333;
+}
+
+.form-group input::placeholder {
+    color: #888;
+}
+
+/* Submit Button */
+button {
+    width: 100%;
+    padding: 15px;
+    background-color: #000000;
+    color: #ffffff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-top: 10px;
+    font-family: sans-serif;
+}
+
+button:hover {
+    background-color: #333333;
+}

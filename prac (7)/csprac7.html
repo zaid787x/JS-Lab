@@ -1,0 +1,553 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Events Demonstration</title>
+
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            min-height: 100vh;
+            background: #f2f2f2;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 25px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 7px;
+            font-weight: bold;
+            color: #444;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #555;
+        }
+
+        .gender {
+            display: flex;
+            gap: 20px;
+        }
+
+        .gender label {
+            font-weight: normal;
+        }
+
+        .gender input {
+            width: auto;
+            margin-right: 5px;
+        }
+
+        .validation-message {
+            font-size: 13px;
+            margin-top: 5px;
+        }
+
+        .valid {
+            border-color: #28a745 !important;
+        }
+
+        .invalid {
+            border-color: #dc3545 !important;
+        }
+
+        .success-text {
+            color: #28a745;
+        }
+
+        .error-text {
+            color: #dc3545;
+        }
+
+        button {
+            width: 100%;
+            padding: 11px;
+            background: #333;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 5px;
+        }
+
+        button:hover {
+            background: #555;
+        }
+
+        #message {
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 4px;
+            text-align: center;
+            display: none;
+        }
+
+        .success {
+            display: block !important;
+            background: #e6f4ea;
+            color: #256029;
+        }
+
+        .error {
+            display: block !important;
+            background: #f8d7da;
+            color: #721c24;
+        }
+
+        #genderMessage {
+            margin-top: 8px;
+            color: #555;
+            font-size: 14px;
+        }
+
+        .student-info {
+            position: fixed;
+            top: 18px;
+            right: 18px;
+            background: #ffffff;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 8px 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            text-align: right;
+            font-size: 12px;
+            color: #333;
+            z-index: 10;
+        }
+
+        .student-info strong {
+            display: block;
+            font-size: 12px;
+            margin-bottom: 2px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="student-info">
+    <strong>Mohammed Zaid Shaikh</strong>
+    <span>PRN: 24070521043</span>
+</div>
+
+<div class="container">
+
+    <h1>Events Demonstration</h1>
+
+    <form id="userForm">
+
+        <div class="form-group">
+
+            <label for="name">Name</label>
+
+            <input
+                type="text"
+                id="name"
+                placeholder="Enter your name"
+            >
+
+            <p id="nameMessage" class="validation-message"></p>
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="email">Email</label>
+
+            <input
+                type="email"
+                id="email"
+                placeholder="Enter your email"
+            >
+
+            <p id="emailMessage" class="validation-message"></p>
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="mobile">Mobile Number</label>
+
+            <input
+                type="tel"
+                id="mobile"
+                placeholder="Enter 10-digit mobile number"
+                maxlength="10"
+            >
+
+            <p id="mobileMessage" class="validation-message"></p>
+
+        </div>
+
+        <div class="form-group">
+
+            <label for="age">Age</label>
+
+            <input
+                type="number"
+                id="age"
+                placeholder="Enter your age"
+                min="1"
+                max="120"
+            >
+
+            <p id="ageMessage" class="validation-message"></p>
+
+        </div>
+
+        <div class="form-group">
+
+            <label>Gender</label>
+
+            <div class="gender">
+
+                <label>
+                    <input
+                        type="radio"
+                        name="gender"
+                        value="Male"
+                    >
+                    Male
+                </label>
+
+                <label>
+                    <input
+                        type="radio"
+                        name="gender"
+                        value="Female"
+                    >
+                    Female
+                </label>
+
+            </div>
+
+            <div id="genderMessage"></div>
+
+        </div>
+
+        <button type="submit">
+            Submit
+        </button>
+
+        <div id="message"></div>
+
+    </form>
+
+</div>
+
+
+<script>
+    const form = document.getElementById("userForm");
+
+    const nameInput = document.getElementById("name");
+    const emailInput = document.getElementById("email");
+    const mobileInput = document.getElementById("mobile");
+    const ageInput = document.getElementById("age");
+
+    const nameMessage =
+        document.getElementById("nameMessage");
+
+    const emailMessage =
+        document.getElementById("emailMessage");
+
+    const mobileMessage =
+        document.getElementById("mobileMessage");
+
+    const ageMessage =
+        document.getElementById("ageMessage");
+
+    const genderInputs =
+        document.querySelectorAll('input[name="gender"]');
+
+    const genderMessage =
+        document.getElementById("genderMessage");
+
+    const message =
+        document.getElementById("message");
+
+    nameInput.addEventListener("focus", function () {
+
+        nameInput.style.backgroundColor = "#eef2ff";
+
+    });
+
+    emailInput.addEventListener("focus", function () {
+
+        emailInput.style.backgroundColor = "#eef2ff";
+
+    });
+
+    mobileInput.addEventListener("focus", function () {
+
+        mobileInput.style.backgroundColor = "#eef2ff";
+
+    });
+
+    ageInput.addEventListener("focus", function () {
+
+        ageInput.style.backgroundColor = "#eef2ff";
+
+    });
+
+    nameInput.addEventListener("blur", function () {
+
+        nameInput.style.backgroundColor = "white";
+
+    });
+
+    emailInput.addEventListener("blur", function () {
+
+        emailInput.style.backgroundColor = "white";
+
+    });
+
+    mobileInput.addEventListener("blur", function () {
+
+        mobileInput.style.backgroundColor = "white";
+
+    });
+
+    ageInput.addEventListener("blur", function () {
+
+        ageInput.style.backgroundColor = "white";
+
+    });
+
+    nameInput.addEventListener("input", function () {
+
+        if (nameInput.value.trim() === "") {
+
+            nameMessage.textContent = "Name is required";
+            nameMessage.className =
+                "validation-message error-text";
+
+            nameInput.classList.remove("valid");
+            nameInput.classList.add("invalid");
+
+        } else {
+
+            nameMessage.textContent = "✓ Name looks good";
+            nameMessage.className =
+                "validation-message success-text";
+
+            nameInput.classList.remove("invalid");
+            nameInput.classList.add("valid");
+
+        }
+
+    });
+
+    emailInput.addEventListener("input", function () {
+
+        const email = emailInput.value.trim();
+        const emailPattern =
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        if (email === "") {
+
+            emailMessage.textContent =
+                "Email is required";
+
+            emailMessage.className =
+                "validation-message error-text";
+
+            emailInput.classList.remove("valid");
+            emailInput.classList.add("invalid");
+
+        }
+
+        else if (!emailPattern.test(email)) {
+
+            emailMessage.textContent =
+                "Please enter a valid email address";
+
+            emailMessage.className =
+                "validation-message error-text";
+
+            emailInput.classList.remove("valid");
+            emailInput.classList.add("invalid");
+
+        }
+
+        else {
+
+            emailMessage.textContent =
+                "✓ Valid email address";
+
+            emailMessage.className =
+                "validation-message success-text";
+
+            emailInput.classList.remove("invalid");
+            emailInput.classList.add("valid");
+
+        }
+
+    });
+
+    mobileInput.addEventListener("input", function () {
+
+        mobileInput.value =
+            mobileInput.value.replace(/\D/g, "");
+
+        const mobile = mobileInput.value;
+
+        if (mobile === "") {
+
+            mobileMessage.textContent =
+                "Mobile number is required";
+
+            mobileMessage.className =
+                "validation-message error-text";
+
+            mobileInput.classList.remove("valid");
+            mobileInput.classList.add("invalid");
+
+        }
+
+        else if (mobile.length < 10) {
+
+            mobileMessage.textContent =
+                `Enter ${10 - mobile.length} more digit(s).`;
+
+            mobileMessage.className =
+                "validation-message error-text";
+
+            mobileInput.classList.remove("valid");
+            mobileInput.classList.add("invalid");
+
+        }
+
+        else if (mobile.length === 10) {
+
+            const phonePattern =
+                /^[6-9][0-9]{9}$/;
+
+            if (phonePattern.test(mobile)) {
+
+                mobileMessage.textContent =
+                    "✓ Valid Number";
+
+                mobileMessage.className =
+                    "validation-message success-text";
+
+                mobileInput.classList.remove("invalid");
+                mobileInput.classList.add("valid");
+
+            } else {
+
+                mobileMessage.textContent =
+                    "Number should start with 6, 7, 8 or 9";
+
+                mobileMessage.className =
+                    "validation-message error-text";
+
+                mobileInput.classList.remove("valid");
+                mobileInput.classList.add("invalid");
+
+            }
+
+        }
+
+    });
+
+    ageInput.addEventListener("input", function () {
+
+        const age = Number(ageInput.value);
+
+        if (ageInput.value === "") {
+
+            ageMessage.textContent =
+                "Age is required.";
+
+            ageMessage.className =
+                "validation-message error-text";
+
+        }
+
+        else if (age < 1 || age > 100) {
+
+            ageMessage.textContent =
+                "Age must be between 1 and 100.";
+
+            ageMessage.className =
+                "validation-message error-text";
+
+        }
+
+        else {
+
+            ageMessage.textContent =
+                "✓ Valid age";
+
+            ageMessage.className =
+                "validation-message success-text";
+
+        }
+
+    });
+
+    genderInputs.forEach(function (radio) {
+
+        radio.addEventListener("change", function () {
+
+            genderMessage.textContent =
+                "Selected gender: " + radio.value;
+
+        });
+
+    });
+
+    form.addEventListener("submit", function (event) {
+
+        event.preventDefault();
+
+        message.textContent =
+            "Form submitted successfully!";
+
+        message.className = "success";
+
+    });
+
+</script>
+
+</body>
+</html>

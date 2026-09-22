@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Grade Calculator</title>
+    <link rel="stylesheet" href="prac3.css">
+</head>
+<body>
+
+    <div class="main-wrapper">
+        <div class="input-section">
+            <h2>Grade Calculator</h2>
+            
+            <div class="form-group">
+                <div class="row">
+                    <label>Student Name:</label>
+                    <input type="text" id="studentName" placeholder="Enter name">
+                </div>
+                <div class="row">
+                    <label>Class/Grade:</label>
+                    <input type="text" id="studentClass" placeholder="Enter class">
+                </div>
+            </div>
+
+            <h3>Marks (0-100)</h3>
+            <div id="subjectsContainer"></div>
+
+            <button onclick="generateReport()">Generate Report</button>
+            <div id="errorOutput" class="error"></div>
+        </div>
+
+        <div class="output-section">
+            <div id="reportOutput">
+                <div id="placeholder" class="placeholder-msg">
+                    Fill in the details and click "Generate Report" to see the result here.
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const subjects = ["Math", "Physics", "English", "Chemistry", "Hindi", "Physical Education"];
+        const container = document.getElementById("subjectsContainer");
+
+        for (let i = 0; i < subjects.length; i++) {
+            container.innerHTML += `
+                <div class="row">
+                    <label>${subjects[i]}:</label>
+                    <input type="number" id="sub_${i}" min="0" max="100" placeholder="0-100">
+                </div>
+            `;
+        }
+
+        function getLetterGrade(marks) {
+            if (marks >= 95) return "O+";
+            if (marks >= 90) return "O";
+            if (marks >= 85) return "A+";
+            if (marks >= 80) return "A";
+            if (marks >= 75) return "B+";
+            if (marks >= 70) return "B";
+            if (marks >= 60) return "C+";
+            if (marks >= 50) return "C";
+            if (marks >= 40) return "D";
+            return "F";
+        }
+
+        function generateReport() {
+            const name = document.getElementById("studentName").value.trim();
+            const sClass = document.getElementById("studentClass").value.trim();
+            const errorOutput = document.getElementById("errorOutput");
+            const reportOutput = document.getElementById("reportOutput");
+            const placeholder = document.getElementById("placeholder");
+
+            errorOutput.classList.remove("visible");
+            errorOutput.innerHTML = "";
+            
+            if (!name || !sClass) {
+                errorOutput.innerHTML = "Please fill name and grade.";
+                errorOutput.classList.add("visible");
+                return;
+            }
+
+            let totalMarks = 0;
+            let subjectRowsHtml = "";
+            let hasFailed = false;
+
+            for (let i = 0; i < subjects.length; i++) {
+                const inputVal = document.getElementById(`sub_${i}`).value;
+                const marks = parseFloat(inputVal);
+
+                if (inputVal === "" || isNaN(marks) || marks < 0 || marks > 100) {
+                    errorOutput.innerHTML = `Invalid marks (0-100) for ${subjects[i]}.`;
+                    errorOutput.classList.add("visible");
+                    return;
+                }
+
+                totalMarks += marks;
+                if (marks < 50) hasFailed = true;
+
+                subjectRowsHtml += `<li><span>${subjects[i]}</span> <span>${marks} <small>(${getLetterGrade(marks)})</small></span></li>`;
+            }
+
+            const average = totalMarks / subjects.length;
+            const finalGrade = getLetterGrade(average);
+            const passed = (!hasFailed && average >= 50);
+
+            if(placeholder) placeholder.style.display = 'none';
+
+            reportOutput.innerHTML = `
+                <div class="report">
+                    <h3>Report Card: ${name} (${sClass})</h3>
+                    <ul>${subjectRowsHtml}</ul>
+                    <div class="final-row">
+                        <span>Average:</span> <span>${average.toFixed(1)}</span>
+                    </div>
+                    <div class="final-row">
+                        <span>Final Grade:</span> <span>${finalGrade}</span>
+                    </div>
+                    <div class="final-row" style="margin-top: 20px; border-top: 2px solid #ddd; padding-top: 15px;">
+                        <span>Status:</span> 
+                        <span class="${passed ? 'pass' : 'fail'}">${passed ? 'PASS' : 'FAIL'}</span>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

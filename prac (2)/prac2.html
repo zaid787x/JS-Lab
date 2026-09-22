@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing Calculator</title>
+    <link rel="stylesheet" href="prac2.css">
+</head>
+<body>
+
+    <div class="main-wrapper">
+        <!-- Left Side: Input Form -->
+        <div class="form-container">
+            <h1>Billing System</h1>
+            <h2>Enter Product Details</h2>
+
+            <form id="billingForm">
+                <div class="form-group">
+                    <label for="customerName">Customer Name:</label>
+                    <input type="text" id="customerName" placeholder="Enter Customer Name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="product">Product Name:</label>
+                    <input type="text" id="product" placeholder="Enter Product" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="quantity">Quantity:</label>
+                    <input type="number" id="quantity" placeholder="Enter Quantity" min="1" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="price">Price per Unit (₹):</label>
+                    <input type="number" id="price" placeholder="Enter Price" min="0" step="0.01" required>
+                </div>
+
+                <button type="submit">Generate Bill</button>
+            </form>
+        </div>
+
+        <!-- Right Side: Invoice Output Area -->
+        <div id="result-container" class="result-container">
+            <!-- JavaScript will inject the bill here -->
+        </div>
+    </div>
+
+    <!-- Internal JavaScript for calculations -->
+    <script>
+        document.getElementById('billingForm').addEventListener('submit', function(event) {
+            // Prevent page refresh
+            event.preventDefault();
+
+            // Fetch input values
+            const name = document.getElementById('customerName').value;
+            const product = document.getElementById('product').value;
+            const quantity = parseFloat(document.getElementById('quantity').value);
+            const price = parseFloat(document.getElementById('price').value);
+
+            // Calculations
+            const baseTotal = quantity * price;
+            const gstAmount = baseTotal * 0.18; // 18% GST
+            const finalAmount = baseTotal + gstAmount;
+
+            // Target the result container
+            const resultContainer = document.getElementById('result-container');
+
+            // Generate the HTML for the bill
+            resultContainer.innerHTML = `
+                <h2>Tax Invoice</h2>
+                <div class="result-item">
+                    <strong>Customer Name:</strong> <span>${name}</span>
+                </div>
+                <hr>
+                <div class="result-item">
+                    <strong>Product:</strong> <span>${product}</span>
+                </div>
+                <div class="result-item">
+                    <strong>Quantity:</strong> <span>${quantity}</span>
+                </div>
+                <div class="result-item">
+                    <strong>Unit Price:</strong> <span>₹${price.toFixed(2)}</span>
+                </div>
+                <hr>
+                <div class="result-item">
+                    <strong>Total Price:</strong> <span>₹${baseTotal.toFixed(2)}</span>
+                </div>
+                <div class="result-item">
+                    <strong>GST (18%):</strong> <span>₹${gstAmount.toFixed(2)}</span>
+                </div>
+                <hr>
+                <div class="result-item final-amount">
+                    <strong>Final Amount:</strong> <span>₹${finalAmount.toFixed(2)}</span>
+                </div>
+            `;
+
+            // Make the bill visible
+            resultContainer.classList.add('active');
+        });
+    </script>
+</body>
+</html>

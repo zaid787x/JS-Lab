@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>E-Commerce Product Filter</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 30px;
+        }
+
+        .container {
+            width: 700px;
+            margin: auto;
+            background: white;
+            padding: 25px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px gray;
+        }
+
+        .header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        h1 {
+            text-align: center;
+            color: #333;
+            margin: 0;
+            flex: 1;
+        }
+
+        .student-info {
+            font-size: 14px;
+            text-align: right;
+            color: #333;
+            background: #f5f5f5;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            padding: 8px 12px;
+            line-height: 1.5;
+            min-width: 180px;
+        }
+
+        form {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 10px;
+        }
+
+        input, select, button {
+            padding: 10px;
+            border: 1px solid #aaa;
+            border-radius: 5px;
+            font-size: 15px;
+        }
+
+        input {
+            flex: 1;
+        }
+
+        button {
+            background-color: #333;
+            color: white;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #555;
+        }
+
+        #clearBtn {
+            background-color: #d9534f;
+            margin-bottom: 20px;
+        }
+
+        #error {
+            color: red;
+            margin-bottom: 15px;
+        }
+
+        .products {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 15px;
+        }
+
+        .product {
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            text-align: center;
+            background-color: #fafafa;
+        }
+
+        .product h3 {
+            margin: 5px 0;
+        }
+
+        .product p {
+            margin: 5px;
+            color: #666;
+        }
+
+        #noProducts {
+            text-align: center;
+            color: red;
+            font-size: 18px;
+        }
+    </style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header-row">
+        <h1>Product Filter</h1>
+
+        <div class="student-info">
+            <div>Name: Mohammed Zaid Shaikh</div>
+            <div>PRN: 24070521043</div>
+        </div>
+    </div>
+
+    <form id="searchForm">
+
+        <input
+            type="text"
+            id="searchBox"
+            placeholder="Enter product name"
+        >
+
+        <select id="category">
+            <option value="All">All Categories</option>
+            <option value="Electronics">Electronics</option>
+            <option value="Clothing">Clothing</option>
+            <option value="Books">Books</option>
+            <option value="Accessories">Accessories</option>
+        </select>
+
+        <button type="submit">Search</button>
+
+    </form>
+
+    <div id="error"></div>
+
+    <button id="clearBtn">Clear Filter</button>
+
+    <div id="products" class="products"></div>
+
+    <p id="noProducts"></p>
+
+</div>
+
+
+<script>
+
+    const products = [
+        {
+            name: "Laptop",
+            category: "Electronics",
+            price: 50000
+        },
+        {
+            name: "Smartphone",
+            category: "Electronics",
+            price: 25000
+        },
+        {
+            name: "Headphones",
+            category: "Electronics",
+            price: 2000
+        },
+        {
+            name: "T-Shirt",
+            category: "Clothing",
+            price: 800
+        },
+        {
+            name: "Jeans",
+            category: "Clothing",
+            price: 1500
+        },
+        {
+            name: "JavaScript Book",
+            category: "Books",
+            price: 600
+        },
+        {
+            name: "HTML Book",
+            category: "Books",
+            price: 500
+        },
+        {
+            name: "Watch",
+            category: "Accessories",
+            price: 3000
+        },
+        {
+            name: "Backpack",
+            category: "Accessories",
+            price: 1200
+        }
+    ];
+
+
+    const searchBox = document.getElementById("searchBox");
+    const category = document.getElementById("category");
+    const productContainer = document.getElementById("products");
+    const error = document.getElementById("error");
+    const noProducts = document.getElementById("noProducts");
+    const clearBtn = document.getElementById("clearBtn");
+    const form = document.getElementById("searchForm");
+
+
+    function displayProducts(list) {
+
+        productContainer.innerHTML = "";
+        noProducts.innerHTML = "";
+
+        if (list.length === 0) {
+            noProducts.innerHTML = "No products found";
+            return;
+        }
+
+        list.forEach(function(product) {
+
+            const div = document.createElement("div");
+
+            div.className = "product";
+
+            div.innerHTML = `
+                <h3>${product.name}</h3>
+                <p>Category: ${product.category}</p>
+                <p>Price: ₹${product.price}</p>
+            `;
+
+            productContainer.appendChild(div);
+        });
+    }
+
+
+    function filterProducts() {
+
+        const searchText = searchBox.value.trim();
+        const selectedCategory = category.value;
+
+        if (!/^[a-zA-Z\s]*$/.test(searchText)) {
+
+            error.innerHTML =
+                "Error: Only letters and spaces are allowed.";
+
+            productContainer.innerHTML = "";
+            noProducts.innerHTML = "";
+
+            return;
+        }
+
+        error.innerHTML = "";
+
+        const filteredProducts = products.filter(function(product) {
+
+            const matchesName =
+                product.name.toLowerCase()
+                .includes(searchText.toLowerCase());
+
+            const matchesCategory =
+                selectedCategory === "All" ||
+                product.category === selectedCategory;
+
+            return matchesName && matchesCategory;
+        });
+
+        displayProducts(filteredProducts);
+    }
+
+
+    searchBox.addEventListener("input", function() {
+        filterProducts();
+    });
+
+
+    category.addEventListener("change", function() {
+        filterProducts();
+    });
+
+
+    form.addEventListener("submit", function(event) {
+
+        event.preventDefault();
+
+        filterProducts();
+    });
+
+
+    clearBtn.addEventListener("click", function() {
+
+        searchBox.value = "";
+        category.value = "All";
+
+        error.innerHTML = "";
+        noProducts.innerHTML = "";
+
+        displayProducts(products);
+    });
+
+
+    displayProducts(products);
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Cart Calculator</title>
+    <link rel="stylesheet" href="prac5.css">
+</head>
+
+<body>
+
+<div class="student">
+    <b>Mohammed Zaid Shaikh</b><br>
+    PRN: 24070521043
+</div>
+
+<div class="container">
+    <h2>Shopping Cart Calculator</h2>
+    <div class="inputs">
+        <input type="text" id="name" placeholder="Product Name">
+        <input type="number" id="price" placeholder="Price">
+        <input type="number" id="qty" placeholder="Quantity">
+        <button onclick="addProduct()">Add Product</button>
+        <button onclick="removeLast()">Remove Last</button>
+    </div>
+
+    <table>
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Price (₹)</th>
+                <th>Quantity</th>
+                <th>Category</th>
+                <th>Total (₹)</th>
+            </tr>
+        </thead>
+        <tbody id="productTable"></tbody>
+    </table>
+    <div id="bill"></div>
+</div>
+
+<script>
+
+let cart = [];
+
+function addProduct() {
+    let name = document.getElementById("name").value;
+    let price = Number(document.getElementById("price").value);
+    let qty = Number(document.getElementById("qty").value);
+    if (name == "" || price <= 0 || qty <= 0) {
+        alert("Enter valid details");
+        return;
+    }
+
+    cart.push({
+        name: name,
+        price: price,
+        qty: qty
+    });
+
+    document.getElementById("name").value = "";
+    document.getElementById("price").value = "";
+    document.getElementById("qty").value = "";
+    display();
+}
+
+function removeLast() {
+    if (cart.length > 0) {
+        cart.pop();
+    }
+    display();
+}
+
+function display() {
+    let table = cart.map(function(item) {
+        let category;
+        if (item.price > 1000) {
+            category = "Expensive";
+        } else {
+            category = "Regular";
+        }
+        return `
+        <tr>
+            <td>${item.name}</td>
+            <td>${item.price}</td>
+            <td>${item.qty}</td>
+            <td>${category}</td>
+            <td>${item.price * item.qty}</td>
+        </tr>
+        `;
+    }).join("");
+    document.getElementById("productTable").innerHTML = table;
+
+    let total = cart.reduce(function(sum, item) {
+
+        return sum + item.price * item.qty;
+
+    }, 0);
+
+    let expensiveProducts = cart.filter(function(item) {
+
+        return item.price > 1000;
+
+    });
+
+    let regularProducts = cart.filter(function(item) {
+
+        return item.price <= 1000;
+
+    });
+
+    let minPrice = 0;
+    let maxPrice = 0;
+
+    let minProduct = "";
+    let maxProduct = "";
+
+    if (cart.length > 0) {
+
+        let prices = cart.map(function(item) {
+            return item.price;
+        });
+
+        minPrice = Math.min(...prices);
+        maxPrice = Math.max(...prices);
+
+        for (let i = 0; i < cart.length; i++) {
+
+            if (cart[i].price == minPrice) {
+                minProduct = cart[i].name;
+            }
+
+            if (cart[i].price == maxPrice) {
+                maxProduct = cart[i].name;
+            }
+        }
+    }
+
+    let discount = total * 0.10;
+    let finalBill = total - discount;
+    document.getElementById("bill").innerHTML = `
+
+        <h3>Bill Summary</h3>
+
+        <p><b>Products:</b></p>
+
+        ${cart.map(function(item) {
+            return item.name + " - ₹" + item.price;
+        }).join("<br>")}<hr>
+
+        <p>
+            Expensive Products :
+            <b>${expensiveProducts.length}</b>
+        </p>
+        <p>
+            Regular Products :
+            <b>${regularProducts.length}</b>
+        </p>
+        <p>
+            Minimum Price :
+            <b>${minProduct} - ₹${minPrice}</b>
+        </p>
+        <p>
+            Maximum Price :
+            <b>${maxProduct} - ₹${maxPrice}</b>
+        </p><hr>
+        <p>
+            Subtotal :
+            ₹${total.toFixed(2)}
+        </p>
+        <p>
+            Discount (10%) :
+            ₹${discount.toFixed(2)}
+        </p>
+        <h2>
+            Final Bill : ₹${finalBill.toFixed(2)}
+        </h2>
+    `;
+}
+</script>
+</body>
+</html>

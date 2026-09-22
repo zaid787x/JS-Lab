@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>To-Do List App</title>
+<style>
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+
+    body {
+        font-family: Arial, sans-serif;
+        background-color: #eef2f5;
+        display: flex;
+        justify-content: center;
+        padding-top: 50px;
+        color: #333333;
+    }
+
+    .student-info {
+        position: fixed;
+        top: 18px;
+        right: 18px;
+        background: #ffffff;
+        border: 1px solid #d6d6d6;
+        border-radius: 6px;
+        padding: 8px 12px;
+        text-align: right;
+        font-size: 12px;
+        color: #333333;
+    }
+
+    .student-info strong {
+        display: block;
+        margin-bottom: 2px;
+        font-size: 12px;
+    }
+
+    .container {
+        background: #ffffff;
+        padding: 25px;
+        border-radius: 8px;
+        width: 380px;
+        border: 1px solid #d6d6d6;
+        box-shadow: 0 3px 10px rgba(0, 0, 0, 0.08);
+    }
+
+    h2 {
+        text-align: center;
+        margin-bottom: 20px;
+        font-weight: 600;
+        color: #222222;
+    }
+
+    .input-group {
+        display: flex;
+        gap: 8px;
+        width: 100%;
+    }
+
+    input {
+        flex: 1;
+        padding: 9px 12px;
+        border: 1px solid #cccccc;
+        border-radius: 5px;
+        font-size: 14px;
+        outline: none;
+    }
+
+    input:focus {
+        border-color: #555555;
+    }
+
+    button {
+        padding: 8px 14px;
+        cursor: pointer;
+        border: 1px solid transparent;
+        border-radius: 5px;
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    #addBtn {
+        background-color: #333333;
+        color: white;
+    }
+
+    #addBtn:hover {
+        background-color: #555555;
+    }
+
+    ul {
+        list-style: none;
+        padding: 0;
+        margin-top: 20px;
+    }
+
+    li {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        background: #f7f7f7;
+        margin: 8px 0;
+        padding: 10px 12px;
+        border-radius: 5px;
+        border: 1px solid #e0e0e0;
+    }
+
+    li span {
+        word-break: break-all;
+        padding-right: 10px;
+    }
+
+    .actions {
+        display: flex;
+        gap: 5px;
+        flex-shrink: 0;
+    }
+
+    .actions button {
+        padding: 4px 10px;
+        font-size: 12px;
+        background-color: #ffffff;
+        border: 1px solid #cccccc;
+        color: #444444;
+    }
+
+    .actions button:hover {
+        background-color: #eeeeee;
+        border-color: #999999;
+    }
+</style>
+</head>
+<body>
+    <div class="student-info">
+        <strong>Mohammed Zaid Shaikh</strong>
+        <span>PRN: 24070521043</span>
+    </div>
+
+    <div class="container">
+        <h2>To-Do List</h2>
+        <div class="input-group">
+            <input type="text" id="taskInput" placeholder="Enter a task">
+            <button id="addBtn">Add</button>
+        </div>
+        <ul id="taskList"></ul>
+    </div>
+    <script>
+        const taskInput = document.getElementById("taskInput");
+        const addBtn = document.getElementById("addBtn");
+        const taskList = document.getElementById("taskList");
+
+        addBtn.addEventListener("click", function () {
+            let task = taskInput.value.trim();
+            if (task == "") {
+                alert("Please enter a task.");
+                return;
+            }
+            let li = document.createElement("li");
+            let span = document.createElement("span");
+            span.textContent = task;
+            let actions = document.createElement("div");
+            actions.className = "actions";
+            let editBtn = document.createElement("button");
+            editBtn.textContent = "Edit";
+            let deleteBtn = document.createElement("button");
+            deleteBtn.textContent = "Delete";
+
+            editBtn.onclick = function () {
+                let updatedTask = prompt("Edit Task:", span.textContent);
+                if (updatedTask !== null && updatedTask.trim() !== "") {
+                    span.textContent = updatedTask.trim();
+                }
+            };
+            deleteBtn.onclick = function () {
+                li.remove();
+            };
+
+            actions.appendChild(editBtn);
+            actions.appendChild(deleteBtn);
+            li.appendChild(span);
+            li.appendChild(actions);
+            taskList.appendChild(li);
+
+            console.log(taskList.children);
+            console.log(li.parentElement);
+            taskInput.value = "";
+        });
+    </script>
+</body>
+</html>

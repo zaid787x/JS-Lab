@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Preferences</title>
+
+<style>
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  padding-top: 130px;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(135deg, #eaf4ff, #ffffff);
+  color: #222;
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  transition: 0.3s ease;
+}
+
+/* Student information section */
+.student-info {
+  position: fixed;
+  top: 20px;
+  right: 25px;
+  padding: 14px 20px;
+  min-width: 245px;
+  background: #ffffff;
+  color: #1d4f7a;
+  border-left: 5px solid #147ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.12);
+  font-size: 14px;
+  line-height: 1.7;
+}
+
+.student-info strong {
+  color: #222;
+}
+
+/* Main card */
+.card {
+  width: 440px;
+  padding: 36px 40px;
+  background: rgba(255, 255, 255, 0.95);
+  border: 1px solid #d8e7f2;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(23, 86, 130, 0.15);
+}
+
+h1 {
+  margin: 0 0 30px;
+  color: #145a91;
+  font-size: 30px;
+  text-align: center;
+}
+
+label {
+  display: block;
+  margin-bottom: 9px;
+  color: #333;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.field {
+  margin-bottom: 25px;
+}
+
+select,
+input[type="range"] {
+  width: 100%;
+}
+
+select {
+  height: 42px;
+  padding: 0 12px;
+  border: 1px solid #a8c5d8;
+  border-radius: 8px;
+  background: #fff;
+  color: #333;
+  font-size: 15px;
+  outline: none;
+  transition: 0.2s;
+}
+
+select:focus {
+  border-color: #147ddd;
+  box-shadow: 0 0 0 3px rgba(20, 125, 221, 0.15);
+}
+
+input[type="range"] {
+  accent-color: #147ddd;
+  cursor: pointer;
+}
+
+.buttons {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+button {
+  height: 42px;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-size: 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
+}
+
+.save,
+.reset {
+  flex: 1;
+  background: #147ddd;
+}
+
+.reset {
+  background: #527b9d;
+}
+
+/* Dark theme */
+body.dark {
+  background: #1d2329;
+  color: #eee;
+}
+
+body.dark .card {
+  background: #2b333b;
+  border-color: #45515c;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
+}
+
+body.dark h1 {
+  color: #78bbf2;
+}
+
+body.dark label {
+  color: #eee;
+}
+
+body.dark select {
+  background: #20262c;
+  color: #eee;
+  border-color: #6689a3;
+}
+
+body.dark .student-info {
+  background: #2b333b;
+  color: #9ed0f7;
+  border-left-color: #65b2f1;
+}
+
+body.dark .student-info strong {
+  color: #fff;
+}
+
+/* Blue theme */
+body.blue {
+  background: #e4f1fc;
+}
+
+body.blue .card {
+  border-color: #a8cce8;
+}
+
+/* Mobile layout */
+@media (max-width: 600px) {
+  body {
+    padding: 125px 18px 30px;
+  }
+
+  .student-info {
+    top: 15px;
+    right: 15px;
+    left: 15px;
+    min-width: auto;
+    text-align: center;
+  }
+
+  .card {
+    width: 100%;
+    padding: 30px 24px;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- Student details displayed at the top-right -->
+<section class="student-info">
+  <div><strong>Name:</strong> Mohammed Zaid Shaikh</div>
+  <div><strong>PRN:</strong> 24070521043</div>
+</section>
+
+<div class="card">
+  <h1>Preferences</h1>
+
+  <div class="field">
+    <label for="theme">Theme</label>
+    <select id="theme">
+      <option value="light">Light</option>
+      <option value="dark">Dark</option>
+      <option value="blue">Blue</option>
+    </select>
+  </div>
+
+  <div class="field">
+    <label>
+      Font Size: <strong id="fontValue">17px</strong>
+    </label>
+    <input id="fontSize" type="range" min="12" max="24" value="17">
+  </div>
+
+  <div class="field">
+    <label for="language">Language</label>
+    <select id="language">
+      <option>English</option>
+      <option>Hindi</option>
+      <option>Marathi</option>
+      <option>French</option>
+      <option>Spanish</option>
+    </select>
+  </div>
+
+  <div class="buttons">
+    <button class="save" onclick="savePrefs()">Save</button>
+    <button class="reset" onclick="resetPrefs()">Reset</button>
+  </div>
+</div>
+
+<script>
+const theme = document.getElementById('theme');
+const fontSize = document.getElementById('fontSize');
+const fontValue = document.getElementById('fontValue');
+const language = document.getElementById('language');
+
+function applyTheme(selectedTheme) {
+  document.body.classList.remove('dark', 'blue');
+
+  if (selectedTheme === 'dark') {
+    document.body.classList.add('dark');
+  }
+
+  if (selectedTheme === 'blue') {
+    document.body.classList.add('blue');
+  }
+}
+
+function updateFont() {
+  fontValue.textContent = fontSize.value + 'px';
+  document.body.style.fontSize = fontSize.value + 'px';
+}
+
+function loadPrefs() {
+  const preferences = JSON.parse(
+    localStorage.getItem('seminarPreferences') || 'null'
+  );
+
+  if (preferences) {
+    theme.value = preferences.theme || 'light';
+    fontSize.value = preferences.fontSize || 17;
+    language.value = preferences.language || 'English';
+  }
+
+  applyTheme(theme.value);
+  updateFont();
+}
+
+theme.addEventListener('change', () => {
+  applyTheme(theme.value);
+});
+
+fontSize.addEventListener('input', updateFont);
+
+function savePrefs() {
+  localStorage.setItem(
+    'seminarPreferences',
+    JSON.stringify({
+      theme: theme.value,
+      fontSize: Number(fontSize.value),
+      language: language.value
+    })
+  );
+
+  alert('Preferences saved!');
+}
+
+function resetPrefs() {
+  localStorage.removeItem('seminarPreferences');
+
+  theme.value = 'light';
+  fontSize.value = 17;
+  language.value = 'English';
+
+  applyTheme('light');
+  updateFont();
+}
+
+loadPrefs();
+</script>
+
+</body>
+</html>

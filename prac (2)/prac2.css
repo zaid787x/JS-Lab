@@ -1,0 +1,156 @@
+/* General page styling */
+body {
+    margin: 0;
+    padding: 20px;
+    font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #eef2f5; /* Light blue-grey background */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    box-sizing: border-box;
+}
+
+/* Wrapper for side-by-side layout */
+.main-wrapper {
+    display: flex;
+    gap: 30px; 
+    align-items: flex-start;
+    max-width: 1000px;
+    width: 100%;
+    justify-content: center;
+    flex-wrap: wrap; 
+}
+
+/* Form container styling (Left Side) */
+.form-container {
+    background-color: #ffffff;
+    width: 100%;
+    max-width: 420px;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.08);
+    flex: 1;
+}
+
+/* Result container styling (Right Side) */
+.result-container {
+    background-color: #ffffff; 
+    width: 100%;
+    max-width: 420px;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0px 8px 20px rgba(0, 0, 0, 0.08);
+    flex: 1;
+    color: #333;
+    display: none; /* Hidden until form is submitted */
+}
+
+/* Class to make the result container visible */
+.result-container.active {
+    display: block;
+}
+
+/* Headings */
+h1 {
+    text-align: center;
+    font-size: 24px;
+    color: #2c3e50;
+    margin-bottom: 5px;
+    margin-top: 0;
+}
+
+h2 {
+    text-align: center;
+    font-size: 16px;
+    color: #7f8c8d;
+    font-weight: normal;
+    margin-bottom: 30px;
+    margin-top: 0;
+}
+
+.result-container h2 {
+    color: #2c3e50;
+    font-size: 22px;
+    font-weight: bold;
+    border-bottom: 2px solid #ecf0f1;
+    padding-bottom: 15px;
+    margin-bottom: 25px;
+}
+
+/* Input groups */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    font-weight: 600;
+    color: #34495e; 
+    margin-bottom: 8px;
+    font-size: 14px;
+}
+
+.form-group input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #bdc3c7;
+    border-radius: 6px;
+    background-color: #f9fbfc;
+    font-size: 14px;
+    box-sizing: border-box; 
+    color: #2c3e50;
+    transition: border-color 0.3s;
+}
+
+.form-group input:focus {
+    border-color: #3498db;
+    outline: none;
+}
+
+/* Submit Button */
+button {
+    width: 100%;
+    padding: 14px;
+    background-color: #3498db; /* Blue button */
+    color: #ffffff;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    margin-top: 15px;
+    transition: background-color 0.3s;
+}
+
+button:hover {
+    background-color: #2980b9;
+}
+
+/* Invoice specific styling */
+.result-item {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 15px;
+    font-size: 15px;
+}
+
+.result-item strong {
+    color: #555;
+}
+
+hr {
+    border: 0;
+    border-top: 1px dashed #bdc3c7;
+    margin: 20px 0;
+}
+
+.final-amount {
+    font-size: 18px;
+    font-weight: bold;
+    color: #27ae60; /* Green highlight for final total */
+}
+
+.final-amount strong {
+    color: #2c3e50;
+}

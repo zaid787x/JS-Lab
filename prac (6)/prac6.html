@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Email Validator</title>
+    <link rel="stylesheet" href="prac6.css">
+</head>
+<body>
+
+    <div class="validator-container">
+        <h1>Email Validation</h1>
+
+        <form id="emailForm" novalidate>
+            <div class="form-group" id="formGroup">
+                <label for="emailInput">Email Address</label>
+                <div class="input-wrapper">
+                    <input type="text" id="emailInput" placeholder="example@domain.com" autocomplete="off">
+                    <svg class="status-icon icon-valid" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://w3.org">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+                    </svg>
+                    <svg class="status-icon icon-invalid" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://w3.org">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M6 18L18 6M6 6l12 12"></path>
+                    </svg>
+                </div>
+                <div class="feedback-message" id="feedbackMessage"></div>
+            </div>
+            <button type="submit">Verify Form</button>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const emailInput = document.getElementById('emailInput');
+            const formGroup = document.getElementById('formGroup');
+            const feedbackMessage = document.getElementById('feedbackMessage');
+            const emailForm = document.getElementById('emailForm');
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/;
+
+            function checkEmail() {
+                const emailValue = emailInput.value.trim();
+
+                if (emailValue === '') {
+                    formGroup.classList.remove('success', 'error');
+                    feedbackMessage.textContent = '';
+                    return false;
+                }
+
+                if (emailRegex.test(emailValue)) {
+                    formGroup.classList.remove('error');
+                    formGroup.classList.add('success');
+                    feedbackMessage.textContent = 'This email address format is valid.';
+                    return true;
+                } else {
+                    formGroup.classList.remove('success');
+                    formGroup.classList.add('error');
+                    feedbackMessage.textContent = 'Please enter a valid email format (e.g., name@domain.com).';
+                    return false;
+                }
+            }
+
+            emailInput.addEventListener('input', checkEmail);
+
+            emailForm.addEventListener('submit', (e) => {
+                e.preventDefault();
+                const isValid = checkEmail();
+                
+                if (emailInput.value.trim() === '') {
+                    formGroup.classList.add('error');
+                    feedbackMessage.textContent = 'Email address cannot be empty.';
+                } else if (isValid) {
+                    feedbackMessage.textContent = 'Success! Form processed accurately.';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
